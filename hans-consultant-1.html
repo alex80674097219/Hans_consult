@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ганс — Інженер-консультант | Avante</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Code+Pro:wght@400;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0d1117; --surface:#161b22; --surface2:#1c2330;
+    --amber:#f0a500; --amber-dim:#a07010; --amber-glow:rgba(240,165,0,0.15);
+    --green:#3fb950; --red:#f85149;
+    --text:#e6edf3; --text-dim:#8b949e; --border:rgba(240,165,0,0.2);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:17px;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(240,165,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(240,165,0,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+  .layout{display:grid;grid-template-columns:320px 1fr;height:100vh;position:relative;z-index:1;}
+
+  /* LEFT */
+  .avatar-panel{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:20px 18px;position:relative;overflow:hidden;}
+  .avatar-panel::before{content:'';position:absolute;top:-60px;left:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(240,165,0,0.08) 0%,transparent 70%);pointer-events:none;}
+  .brand{font-family:'Source Code Pro',monospace;font-size:11px;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:16px;opacity:0.7;}
+
+  .avatar-wrap{position:relative;width:180px;height:200px;margin-bottom:12px;}
+  .avatar-wrap svg{width:100%;height:100%;filter:drop-shadow(0 0 20px rgba(240,165,0,0.3));}
+  .pulse-ring{position:absolute;inset:-16px;border-radius:50%;border:2px solid var(--amber);opacity:0;}
+  .pulse-ring.thinking{animation:pulse 1.5s ease-out infinite;}
+  .pulse-ring.speaking{animation:pulse-speak 0.6s ease-in-out infinite;}
+  @keyframes pulse{0%{transform:scale(0.9);opacity:0.6;}100%{transform:scale(1.15);opacity:0;}}
+  @keyframes pulse-speak{0%,100%{transform:scale(1);opacity:0.8;border-color:var(--green);}50%{transform:scale(1.08);opacity:0.3;border-color:var(--amber);}}
+
+  .hans-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--amber);letter-spacing:1px;margin-bottom:2px;}
+  .hans-title{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+  .stats-row{display:flex;gap:14px;margin-bottom:12px;}
+  .stat{text-align:center;}
+  .stat-num{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--amber);display:block;}
+  .stat-label{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;}
+  .divider{width:100%;height:1px;background:var(--border);margin-bottom:12px;}
+
+  .lang-label{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
+  .lang-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;}
+  .lang-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:'Source Code Pro',monospace;font-size:11px;padding:4px 9px;border-radius:4px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;}
+  .lang-btn:hover,.lang-btn.active{background:var(--amber-glow);border-color:var(--amber);color:var(--amber);}
+
+  /* MIC */
+  .mic-section{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:12px;}
+  .voice-bars{display:flex;align-items:flex-end;gap:3px;height:22px;opacity:0;transition:opacity 0.3s;}
+  .voice-bars.active{opacity:1;}
+  .vbar{width:4px;background:var(--amber);border-radius:2px;}
+  .voice-bars.active .vbar:nth-child(1){animation:vbar 0.8s ease-in-out infinite;}
+  .voice-bars.active .vbar:nth-child(2){animation:vbar 0.8s ease-in-out 0.1s infinite;}
+  .voice-bars.active .vbar:nth-child(3){animation:vbar 0.8s ease-in-out 0.2s infinite;}
+  .voice-bars.active .vbar:nth-child(4){animation:vbar 0.8s ease-in-out 0.15s infinite;}
+  .voice-bars.active .vbar:nth-child(5){animation:vbar 0.8s ease-in-out 0.05s infinite;}
+  .voice-bars.recording .vbar{background:var(--red);}
+  @keyframes vbar{0%,100%{height:4px;}50%{height:18px;}}
+
+  .mic-btn{width:62px;height:62px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;font-size:26px;}
+  .mic-btn:hover{border-color:var(--amber);background:var(--amber-glow);}
+  .mic-btn.recording{border-color:var(--red);background:rgba(248,81,73,0.15);animation:mic-pulse 1s ease-in-out infinite;}
+  .mic-btn.disabled{opacity:0.35;cursor:not-allowed;}
+  @keyframes mic-pulse{0%,100%{box-shadow:0 0 0 0 rgba(248,81,73,0.4);}50%{box-shadow:0 0 0 10px rgba(248,81,73,0);}}
+
+  .mic-label{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;text-align:center;}
+  .mic-label.recording{color:var(--red);}
+  .mic-label.speaking{color:var(--green);}
+
+  .stop-btn{display:none;font-family:'Source Code Pro',monospace;font-size:10px;color:var(--red);background:transparent;border:1px solid rgba(248,81,73,0.4);padding:3px 10px;border-radius:4px;cursor:pointer;letter-spacing:1px;transition:all 0.2s;}
+  .stop-btn:hover{background:rgba(248,81,73,0.1);}
+  .stop-btn.visible{display:block;}
+
+  .status-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 2s ease-in-out infinite;}
+  .status-dot.busy{background:var(--amber);box-shadow:0 0 8px var(--amber);}
+  .status-dot.speaking{animation:blink-fast 0.5s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  @keyframes blink-fast{0%,100%{opacity:1;}50%{opacity:0.2;}}
+  .status-text{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);}
+
+  .tags{display:flex;flex-direction:column;gap:4px;width:100%;margin-top:auto;padding-top:12px;}
+  .tag{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--amber-dim);letter-spacing:1px;padding:3px 7px;border-left:2px solid var(--amber-dim);background:rgba(240,165,0,0.04);}
+
+  /* RIGHT */
+  .chat-panel{display:flex;flex-direction:column;height:100vh;}
+  .chat-header{padding:16px 26px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface);}
+  .chat-header-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);}
+  .chat-header-sub{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;margin-top:2px;}
+  .header-badge{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--amber);border:1px solid var(--border);padding:4px 12px;border-radius:20px;letter-spacing:1px;}
+
+  .messages{flex:1;overflow-y:auto;padding:22px 26px;display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth;}
+  .messages::-webkit-scrollbar{width:4px;}
+  .messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+  .msg{display:flex;gap:12px;animation:fadeIn 0.3s ease;}
+  .msg.user{flex-direction:row-reverse;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  .msg-avatar{width:34px;height:34px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px;}
+  .msg.hans .msg-avatar{background:var(--amber-glow);border:1px solid var(--border);}
+  .msg.user .msg-avatar{background:var(--surface2);border:1px solid rgba(255,255,255,0.08);}
+
+  .msg-bubble{max-width:70%;padding:11px 15px;border-radius:8px;line-height:1.6;font-size:16px;}
+  .msg.hans .msg-bubble{background:var(--surface2);border:1px solid var(--border);border-top-left-radius:2px;}
+  .msg.user .msg-bubble{background:var(--amber-glow);border:1px solid rgba(240,165,0,0.3);border-top-right-radius:2px;}
+  .msg-meta{display:flex;align-items:center;gap:8px;margin-top:3px;}
+  .msg-time{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--text-dim);letter-spacing:1px;}
+  .msg.user .msg-meta{justify-content:flex-end;}
+  .voice-badge{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--amber);opacity:0.6;}
+
+  .typing-indicator{display:none;gap:5px;align-items:center;padding:11px 15px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;border-top-left-radius:2px;width:fit-content;}
+  .typing-indicator.show{display:flex;}
+  .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:typing 1.2s ease-in-out infinite;}
+  .typing-dot:nth-child(2){animation-delay:0.2s;}
+  .typing-dot:nth-child(3){animation-delay:0.4s;}
+  @keyframes typing{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-5px);opacity:1;}}
+
+  .input-area{padding:14px 26px;border-top:1px solid var(--border);background:var(--surface);}
+  .no-speech-warn{display:none;font-family:'Source Code Pro',monospace;font-size:10px;color:var(--amber);background:rgba(240,165,0,0.08);border-radius:4px;padding:6px 10px;margin-bottom:8px;}
+  .no-speech-warn.show{display:block;}
+  .quick-questions{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px;}
+  .quick-btn{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);background:transparent;border:1px solid var(--border);padding:4px 9px;border-radius:4px;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px;}
+  .quick-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--amber-glow);}
+
+  .input-row{display:flex;gap:9px;align-items:flex-end;}
+  .input-box{flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Crimson Pro',serif;font-size:16px;padding:10px 15px;border-radius:6px;resize:none;outline:none;transition:border-color 0.2s;min-height:42px;max-height:120px;line-height:1.4;}
+  .input-box:focus{border-color:var(--amber);}
+  .input-box::placeholder{color:var(--text-dim);font-style:italic;}
+  .send-btn{background:var(--amber);color:var(--bg);border:none;width:42px;height:42px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;font-size:16px;}
+  .send-btn:hover{background:#ffd060;transform:scale(1.05);}
+  .send-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+  .powered-by{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;text-align:center;margin-top:7px;opacity:0.4;}
+
+  @media(max-width:680px){.layout{grid-template-columns:1fr;}.avatar-panel{display:none;}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="avatar-panel">
+    <div class="brand">Avante Energy</div>
+    <div class="avatar-wrap" id="avatarWrap">
+      <div class="pulse-ring" id="pulseRing"></div>
+      <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="110" r="85" fill="rgba(240,165,0,0.05)"/>
+        <rect x="55" y="130" width="90" height="75" rx="12" fill="#1e3a5f"/>
+        <rect x="85" y="130" width="30" height="75" fill="#1a3355"/>
+        <rect x="60" y="140" width="22" height="16" rx="3" fill="#16304a"/>
+        <rect x="64" y="143" width="14" height="10" rx="2" fill="#0d2238"/>
+        <text x="68" y="151" fill="#f0a500" font-size="8" font-family="Arial">⚡</text>
+        <rect x="87" y="120" width="26" height="18" rx="6" fill="#d4956b"/>
+        <ellipse cx="100" cy="95" rx="42" ry="44" fill="#d4956b"/>
+        <ellipse cx="100" cy="58" rx="44" ry="12" fill="#2a5298"/>
+        <rect x="56" y="50" width="88" height="16" rx="6" fill="#2a5298"/>
+        <rect x="52" y="60" width="96" height="6" rx="3" fill="#1e3f7a"/>
+        <ellipse cx="100" cy="66" rx="48" ry="7" fill="#1e3f7a"/>
+        <text x="86" y="61" fill="#f0a500" font-size="9" font-family="Arial" font-weight="bold">⚡ A</text>
+        <ellipse cx="85" cy="95" rx="9" ry="8" fill="white"/>
+        <circle cx="86" cy="95" r="5" fill="#3a5a8a"/>
+        <circle cx="87" cy="94" r="2.5" fill="#1a2a4a"/>
+        <circle cx="88" cy="93" r="1" fill="white"/>
+        <ellipse cx="115" cy="95" rx="9" ry="8" fill="white"/>
+        <circle cx="116" cy="95" r="5" fill="#3a5a8a"/>
+        <circle cx="117" cy="94" r="2.5" fill="#1a2a4a"/>
+        <circle cx="118" cy="93" r="1" fill="white"/>
+        <path d="M76 87 Q85 83 94 86" stroke="#5a4a3a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M106 86 Q115 83 124 87" stroke="#5a4a3a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="100" cy="106" rx="6" ry="5" fill="#c07845"/>
+        <path d="M80 114 Q100 118 120 114" stroke="#c8b08a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M80 114 Q90 122 100 119 Q110 122 120 114" stroke="#c8b08a" stroke-width="3" fill="#c8b08a" opacity="0.6"/>
+        <!-- Mouth: closed -->
+        <g id="mouthClosed">
+          <path d="M88 126 Q100 130 112 126" stroke="#a06040" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- Mouth: open (speaking) -->
+        <g id="mouthOpen" style="display:none">
+          <ellipse cx="100" cy="128" rx="10" ry="6" fill="#6a2020"/>
+          <path d="M90 125 Q100 122 110 125" stroke="#c07050" stroke-width="2" fill="none"/>
+          <ellipse cx="100" cy="131" rx="7" ry="2" fill="#cc6060" opacity="0.6"/>
+        </g>
+        <path d="M68 125 Q75 145 100 152 Q125 145 132 125 Q118 130 100 132 Q82 130 68 125Z" fill="#d4c4a0"/>
+        <path d="M75 126 Q78 138 85 144" stroke="#b8a880" stroke-width="1.5" fill="none"/>
+        <path d="M100 132 Q100 145 100 150" stroke="#b8a880" stroke-width="1.5" fill="none"/>
+        <path d="M125 126 Q122 138 115 144" stroke="#b8a880" stroke-width="1.5" fill="none"/>
+        <ellipse cx="58" cy="98" rx="8" ry="10" fill="#d4956b"/>
+        <ellipse cx="142" cy="98" rx="8" ry="10" fill="#d4956b"/>
+        <rect x="30" y="138" width="25" height="50" rx="10" fill="#1e3a5f"/>
+        <ellipse cx="42" cy="192" rx="12" ry="10" fill="#d4956b"/>
+        <rect x="34" y="178" width="16" height="20" rx="3" fill="#2a2a2a"/>
+        <rect x="36" y="180" width="12" height="8" rx="1" fill="#00ff88" opacity="0.8"/>
+        <text x="38" y="187" fill="#00ff88" font-size="5" font-family="monospace">12.6V</text>
+        <rect x="145" y="138" width="25" height="50" rx="10" fill="#1e3a5f"/>
+        <ellipse cx="158" cy="192" rx="12" ry="10" fill="#d4956b"/>
+        <rect x="150" y="175" width="16" height="22" rx="3" fill="#1a1a2e"/>
+        <rect x="152" y="177" width="12" height="16" rx="1" fill="#0d3a6e"/>
+        <text x="153" y="185" fill="#f0a500" font-size="4" font-family="monospace">Solar</text>
+        <text x="153" y="190" fill="#f0a500" font-size="4" font-family="monospace">3.2kW</text>
+      </svg>
+    </div>
+
+    <div class="hans-name">Ганс</div>
+    <div class="hans-title">Майстер • 20 років досвіду</div>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-num">700+</span><span class="stat-label">Проектів</span></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">Мов</span></div>
+      <div class="stat"><span class="stat-num">20</span><span class="stat-label">Років</span></div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="lang-label">Мова / Sprache</div>
+    <div class="lang-row">
+      <button class="lang-btn active" onclick="setLang('uk',this)">🇺🇦 UA</button>
+      <button class="lang-btn" onclick="setLang('de',this)">🇩🇪 DE</button>
+      <button class="lang-btn" onclick="setLang('en',this)">🇬🇧 EN</button>
+      <button class="lang-btn" onclick="setLang('ru',this)">🇷🇺 RU</button>
+      <button class="lang-btn" onclick="setLang('pl',this)">🇵🇱 PL</button>
+    </div>
+
+    <div class="mic-section">
+      <div class="voice-bars" id="voiceBars">
+        <div class="vbar" style="height:6px"></div>
+        <div class="vbar" style="height:12px"></div>
+        <div class="vbar" style="height:18px"></div>
+        <div class="vbar" style="height:10px"></div>
+        <div class="vbar" style="height:5px"></div>
+      </div>
+      <button class="mic-btn" id="micBtn" onclick="toggleMic()">🎙️</button>
+      <div class="mic-label" id="micLabel">Натисни та говори</div>
+      <button class="stop-btn" id="stopBtn" onclick="stopSpeaking()">■ Зупинити</button>
+    </div>
+
+    <div class="status-row">
+      <div class="status-dot" id="statusDot"></div>
+      <div class="status-text" id="statusText">Онлайн — готовий</div>
+    </div>
+
+    <div class="tags">
+      <div class="tag">VICTRON ENERGY — CERTIFIED</div>
+      <div class="tag">HUAWEI FUSIONSOLAR</div>
+      <div class="tag">FRONIUS / DEYE / SMA</div>
+      <div class="tag">PYLONTECH / LiFePO4</div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="chat-panel">
+    <div class="chat-header">
+      <div>
+        <div class="chat-header-title">Технічна консультація</div>
+        <div class="chat-header-sub">СОНЯЧНІ СИСТЕМИ • ІНВЕРТОРИ • АКБ • МОНТАЖ</div>
+      </div>
+      <div class="header-badge">⚡ AI-ІНЖЕНЕР</div>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="msg hans">
+        <div class="msg-avatar">👴</div>
+        <div>
+          <div class="msg-bubble" id="greetingMsg">
+            Grüezi! Я — Ганс, інженер Avante.<br>
+            20 років у сонячній енергетиці, 700+ об'єктів.<br><br>
+            Питайте по суті. <strong>Яка система? Яка потужність? Що не так?</strong><br><br>
+            <em style="font-size:14px;color:var(--text-dim)">🎙️ Говоріть голосом — натисніть мікрофон зліва</em>
+          </div>
+          <div class="msg-meta"><div class="msg-time" id="greetingTime"></div></div>
+        </div>
+      </div>
+      <div class="msg hans" id="typingMsg" style="display:none">
+        <div class="msg-avatar">👴</div>
+        <div class="typing-indicator show">
+          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="no-speech-warn" id="noSpeechWarn">⚠ Мікрофон не підтримується. Використовуйте Chrome або Edge.</div>
+      <div class="quick-questions">
+        <button class="quick-btn" onclick="quickSend(this)">Підібрати інвертор</button>
+        <button class="quick-btn" onclick="quickSend(this)">Розрахувати АКБ</button>
+        <button class="quick-btn" onclick="quickSend(this)">Victron vs Huawei</button>
+        <button class="quick-btn" onclick="quickSend(this)">Помилка на інверторі</button>
+        <button class="quick-btn" onclick="quickSend(this)">Скільки панелей?</button>
+      </div>
+      <div class="input-row">
+        <textarea class="input-box" id="userInput"
+          placeholder="Опишіть задачу або говоріть у мікрофон..."
+          rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+      </div>
+      <div class="powered-by">AVANTE.UA • AI-КОНСУЛЬТАНТ • POWERED BY CLAUDE</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// STATE
+let currentLang = 'uk', isLoading = false, isRecording = false, isSpeaking = false;
+const conversationHistory = [];
+let recognition = null, mouthTimer = null;
+
+// LANG CONFIG
+const LC = {
+  uk:{ sl:'uk-UA', vn:['uk','ukrainian','Milena','Google українська'], rate:0.78, pitch:0.72,
+    ph:'Опишіть задачу або говоріть у мікрофон...', ml:'Натисни та говори',
+    st:{online:'Онлайн — готовий',recording:'Слухаю...',thinking:'Думаю...',speaking:'Говорю...'},
+    gr:'Grüezi! Я — Ганс, інженер Avante.<br>20 років у сонячній енергетиці, 700+ об\'єктів.<br><br>Питайте по суті. <strong>Яка система? Яка потужність? Що не так?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говоріть голосом — натисніть мікрофон зліва</em>'},
+  de:{ sl:'de-DE', vn:['Hans','Stefan','de-DE','german','Google Deutsch'], rate:0.76, pitch:0.68,
+    ph:'Beschreiben Sie Ihr Problem...', ml:'Drücken & sprechen',
+    st:{online:'Online — bereit',recording:'Höre zu...',thinking:'Denke nach...',speaking:'Spreche...'},
+    gr:'Grüezi! Ich bin Hans, Chefingenieur bei Avante.<br>20 Jahre Erfahrung, 700+ Projekte.<br><br>Fragen Sie direkt. <strong>Welches System? Welche Leistung?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Sprechen Sie ins Mikrofon</em>'},
+  en:{ sl:'en-GB', vn:['Daniel','George','en-GB','british','Google UK English'], rate:0.80, pitch:0.70,
+    ph:'Describe your issue...', ml:'Press & speak',
+    st:{online:'Online — ready',recording:'Listening...',thinking:'Thinking...',speaking:'Speaking...'},
+    gr:'Grüezi! I\'m Hans, lead engineer at Avante.<br>20 years in renewable energy, 700+ projects.<br><br>Ask directly. <strong>What system? What power?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ You can speak using the microphone</em>'},
+  ru:{ sl:'ru-RU', vn:['Yuri','Pavel','ru-RU','russian','Google русский'], rate:0.78, pitch:0.70,
+    ph:'Опишите задачу или проблему...', ml:'Нажми и говори',
+    st:{online:'Онлайн — готов',recording:'Слушаю...',thinking:'Думаю...',speaking:'Говорю...'},
+    gr:'Grüezi! Я — Ганс, инженер Avante.<br>20 лет в энергетике, 700+ объектов.<br><br>Спрашивайте по делу. <strong>Какая система? Какая мощность?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говорите голосом — нажмите микрофон</em>'},
+  pl:{ sl:'pl-PL', vn:['pl-PL','polish','Google polski'], rate:0.79, pitch:0.71,
+    ph:'Opisz swój problem...', ml:'Naciśnij i mów',
+    st:{online:'Online — gotowy',recording:'Słucham...',thinking:'Myślę...',speaking:'Mówię...'},
+    gr:'Grüezi! Jestem Hans, główny inżynier Avante.<br>20 lat doświadczenia, 700+ projektów.<br><br>Pytaj konkretnie. <strong>Jaki system? Jaka moc?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Możesz mówić przez mikrofon</em>'}
+};
+
+const SYSPROMPT = `Ти — Ганс (Hans), інженер-практик компанії Avante зі Швейцарії. 65 років. Спокійний мудрий дідусь-електрик. 20 років досвіду, 700+ об'єктів.
+
+СТИЛЬ: Прямий. Без зайвих слів. Рублені фрази. Короткі відповіді. Міксуй суржик (укр+рос+нім). Іноді "Grüezi". Якщо клієнт помиляється — виправляй м'яко але впевнено. НЕ використовуй зірочки для виділення — пиши звичайний текст.
+
+СТРУКТУРА (3 блоки без заголовків):
+Перший абзац: вердикт — підтвердження або критика ідеї клієнта (1-2 речення).
+Другий абзац: конкретне рішення — модель, параметри, ціна якщо знаєш.
+Третій абзац: дія — що зробити зараз ("скинь фото щитка", "перевір напругу").
+
+ЗНАННЯ: Victron Energy (MultiPlus, Quattro, SmartSolar MPPT, Cerbo GX), Huawei FusionSolar, Fronius, Deye, SMA, Pylontech, LiFePO4, MPPT контролери, BMS. Сайт avante.ua.
+
+МОВА: відповідай мовою клієнта. Поточна мова сесії: LANG`;
+
+// INIT
+document.getElementById('greetingTime').textContent = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+if(window.speechSynthesis){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }
+
+// LANG
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('greetingMsg').innerHTML = LC[lang].gr;
+  document.getElementById('userInput').placeholder = LC[lang].ph;
+  document.getElementById('micLabel').textContent = LC[lang].ml;
+}
+
+// SPEECH RECOGNITION
+function initRecognition() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ document.getElementById('noSpeechWarn').classList.add('show'); document.getElementById('micBtn').classList.add('disabled'); return null; }
+  const rec = new SR();
+  rec.continuous = false; rec.interimResults = true; rec.maxAlternatives = 1;
+  rec.onstart = () => { isRecording = true; setStatus('recording'); };
+  rec.onresult = (e) => {
+    let interim='', final='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal) final+=t; else interim+=t;
+    }
+    const box=document.getElementById('userInput');
+    box.value=final||interim; autoResize(box);
+  };
+  rec.onend = () => {
+    isRecording=false;
+    const text=document.getElementById('userInput').value.trim();
+    setStatus('online');
+    if(text) setTimeout(()=>sendMessage(true), 300);
+  };
+  rec.onerror = (e) => {
+    isRecording=false; setStatus('online');
+    if(e.error==='not-allowed') document.getElementById('micLabel').textContent='Немає дозволу на мікрофон';
+  };
+  return rec;
+}
+
+function toggleMic() {
+  if(isSpeaking){ stopSpeaking(); return; }
+  if(isLoading) return;
+  if(!recognition) recognition=initRecognition();
+  if(!recognition) return;
+  if(isRecording){ recognition.stop(); return; }
+  recognition.lang = LC[currentLang].sl;
+  try{ recognition.start(); } catch(e){ recognition=initRecognition(); if(recognition) recognition.start(); }
+}
+
+// TTS — голос старого майстра
+function getBestVoice(lang) {
+  const voices = speechSynthesis.getVoices();
+  const kws = LC[lang].vn.map(v=>v.toLowerCase());
+  for(const kw of kws){
+    const f=voices.find(v=>v.name.toLowerCase().includes(kw));
+    if(f) return f;
+  }
+  // fallback: first voice matching lang code
+  const prefix = lang==='uk'?'uk':lang==='ru'?'ru':lang==='de'?'de':lang==='pl'?'pl':'en';
+  return voices.find(v=>v.lang.toLowerCase().startsWith(prefix)) || null;
+}
+
+function speakText(text) {
+  if(!window.speechSynthesis) return;
+  stopSpeaking();
+  const clean = text.replace(/<[^>]*>/g,' ').replace(/[*_`#]/g,'').replace(/\s+/g,' ').trim();
+  if(!clean) return;
+
+  const cfg = LC[currentLang];
+  const utter = new SpeechSynthesisUtterance(clean);
+  utter.lang = cfg.sl;
+  utter.rate = cfg.rate;
+  utter.pitch = cfg.pitch;
+  utter.volume = 1.0;
+
+  const assignVoice = () => { const v=getBestVoice(currentLang); if(v) utter.voice=v; };
+  assignVoice();
+
+  utter.onstart = () => { isSpeaking=true; setStatus('speaking'); startMouth(); };
+  utter.onend = utter.onerror = () => { isSpeaking=false; stopMouth(); setStatus('online'); document.getElementById('stopBtn').classList.remove('visible'); };
+
+  speechSynthesis.speak(utter);
+  document.getElementById('stopBtn').classList.add('visible');
+}
+
+function stopSpeaking() {
+  if(speechSynthesis) speechSynthesis.cancel();
+  isSpeaking=false; stopMouth(); setStatus('online');
+  document.getElementById('stopBtn').classList.remove('visible');
+}
+
+// MOUTH ANIMATION
+function startMouth() {
+  document.getElementById('pulseRing').className='pulse-ring speaking';
+  document.getElementById('voiceBars').classList.add('active');
+  document.getElementById('voiceBars').classList.remove('recording');
+  let open=false;
+  mouthTimer=setInterval(()=>{
+    open=!open;
+    document.getElementById('mouthOpen').style.display=open?'block':'none';
+    document.getElementById('mouthClosed').style.display=open?'none':'block';
+  }, 150+Math.random()*130);
+}
+
+function stopMouth() {
+  clearInterval(mouthTimer);
+  document.getElementById('mouthOpen').style.display='none';
+  document.getElementById('mouthClosed').style.display='block';
+  document.getElementById('pulseRing').className='pulse-ring';
+  const b=document.getElementById('voiceBars');
+  b.classList.remove('active','recording');
+}
+
+// STATUS
+function setStatus(state) {
+  const dot=document.getElementById('statusDot');
+  const label=document.getElementById('micLabel');
+  const micBtn=document.getElementById('micBtn');
+  const bars=document.getElementById('voiceBars');
+  const t=LC[currentLang].st;
+
+  document.getElementById('statusText').textContent=t[state]||t.online;
+  dot.className='status-dot'; micBtn.className='mic-btn'; bars.classList.remove('active','recording');
+
+  if(state==='recording'){
+    dot.classList.add('busy'); micBtn.classList.add('recording'); micBtn.textContent='⏹';
+    label.textContent=t.recording; label.className='mic-label recording';
+    bars.classList.add('active','recording');
+  } else if(state==='thinking'){
+    dot.classList.add('busy'); micBtn.textContent='⏳';
+    label.textContent=t.thinking; label.className='mic-label';
+    document.getElementById('pulseRing').className='pulse-ring thinking';
+  } else if(state==='speaking'){
+    dot.classList.add('speaking'); micBtn.textContent='⏹';
+    label.textContent=t.speaking; label.className='mic-label speaking';
+  } else {
+    micBtn.textContent='🎙️'; label.textContent=LC[currentLang].ml; label.className='mic-label';
+    document.getElementById('pulseRing').className='pulse-ring';
+  }
+}
+
+// CHAT UI
+function getTime(){ return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
+
+function addMessage(role, html, isVoice=false) {
+  const messages=document.getElementById('messages');
+  const typingMsg=document.getElementById('typingMsg');
+  const div=document.createElement('div');
+  div.className=`msg ${role==='assistant'?'hans':'user'}`;
+  const vb=isVoice?`<span class="voice-badge">🎙</span>`:'';
+  div.innerHTML=`
+    <div class="msg-avatar">${role==='assistant'?'👴':'👤'}</div>
+    <div>
+      <div class="msg-bubble">${html}</div>
+      <div class="msg-meta">${vb}<div class="msg-time">${getTime()}</div></div>
+    </div>`;
+  messages.insertBefore(div,typingMsg);
+  messages.scrollTop=messages.scrollHeight;
+}
+
+function showTyping(show) {
+  document.getElementById('typingMsg').style.display=show?'flex':'none';
+  if(show){ document.getElementById('messages').scrollTop=999999; setStatus('thinking'); }
+}
+
+function quickSend(btn){ document.getElementById('userInput').value=btn.textContent; sendMessage(); }
+function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
+function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();} }
+
+async function sendMessage(fromVoice=false) {
+  if(isLoading) return;
+  const input=document.getElementById('userInput');
+  const text=input.value.trim();
+  if(!text) return;
+
+  input.value=''; input.style.height='auto';
+  document.getElementById('sendBtn').disabled=true;
+  isLoading=true;
+
+  addMessage('user', text.replace(/\n/g,'<br>'), fromVoice);
+  conversationHistory.push({role:'user',content:text});
+  showTyping(true);
+
+  try {
+    const sys=SYSPROMPT.replace('LANG',currentLang.toUpperCase());
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,system:sys,messages:conversationHistory})
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||'Помилка зв\'язку.';
+    conversationHistory.push({role:'assistant',content:reply});
+
+    showTyping(false); setStatus('online');
+
+    const displayHtml=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    addMessage('assistant',displayHtml);
+
+    setTimeout(()=>speakText(reply),150);
+  } catch(err){
+    showTyping(false); setStatus('online');
+    addMessage('assistant','Технічна помилка. Перевірте підключення.');
+  }
+
+  document.getElementById('sendBtn').disabled=false;
+  isLoading=false;
+}
+</script>
+</body>
+</html>
