@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ганс — Інженер-консультант | Avante</title>
+<title id="pageTitle">Hans — Ingenieur-Berater | Avante</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Code+Pro:wght@400;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
---bg:#0d1117; --surface:#161b22; --surface2:#1c2330;
---amber:#f0a500; --amber-dim:#a07010; --amber-glow:rgba(240,165,0,0.15);
---green:#3fb950; --red:#f85149;
---text:#e6edf3; --text-dim:#8b949e; --border:rgba(240,165,0,0.2);
+--bg:#0d1117;--surface:#161b22;--surface2:#1c2330;
+--amber:#f0a500;--amber-dim:#a07010;--amber-glow:rgba(240,165,0,0.15);
+--green:#3fb950;--red:#f85149;
+--text:#e6edf3;--text-dim:#8b949e;--border:rgba(240,165,0,0.2);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:17px;min-height:100vh;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(240,165,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(240,165,0,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-
-/* API KEY MODAL */
 .api-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .api-modal.hidden{display:none;}
 .api-box{background:var(--surface);border:1px solid var(--amber);border-radius:12px;padding:32px;max-width:440px;width:90%;text-align:center;}
 .api-box h2{font-family:'Playfair Display',serif;color:var(--amber);font-size:22px;margin-bottom:8px;}
 .api-box p{color:var(--text-dim);font-size:14px;font-family:'Source Code Pro',monospace;line-height:1.6;margin-bottom:20px;}
 .api-box a{color:var(--amber);text-decoration:none;}
-.api-box a:hover{text-decoration:underline;}
 .api-input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Source Code Pro',monospace;font-size:13px;padding:10px 14px;border-radius:6px;outline:none;margin-bottom:12px;letter-spacing:1px;}
 .api-input:focus{border-color:var(--amber);}
 .api-save-btn{width:100%;background:var(--amber);color:var(--bg);border:none;padding:11px;border-radius:6px;font-family:'Source Code Pro',monospace;font-size:13px;font-weight:600;letter-spacing:2px;cursor:pointer;transition:background 0.2s;}
@@ -31,9 +28,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .api-error{color:var(--red);font-size:12px;font-family:'Source Code Pro',monospace;margin-top:8px;display:none;}
 .api-error.show{display:block;}
 .api-note{font-size:11px;color:var(--text-dim);font-family:'Source Code Pro',monospace;margin-top:10px;opacity:0.6;}
-
 .layout{display:grid;grid-template-columns:320px 1fr;height:100vh;position:relative;z-index:1;}
-/* LEFT */
 .avatar-panel{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:20px 18px;position:relative;overflow:hidden;}
 .avatar-panel::before{content:'';position:absolute;top:-60px;left:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(240,165,0,0.08) 0%,transparent 70%);pointer-events:none;}
 .brand{font-family:'Source Code Pro',monospace;font-size:11px;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:16px;opacity:0.7;}
@@ -51,11 +46,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .stat-num{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--amber);display:block;}
 .stat-label{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;}
 .divider{width:100%;height:1px;background:var(--border);margin-bottom:12px;}
+.role-label{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
+.role-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;}
+.role-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:'Source Code Pro',monospace;font-size:11px;padding:5px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px;flex:1;text-align:center;}
+.role-btn:hover{background:var(--amber-glow);border-color:var(--amber);color:var(--amber);}
+.role-btn.active{background:var(--amber-glow);border-color:var(--amber);color:var(--amber);font-weight:600;}
 .lang-label{font-family:'Source Code Pro',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;align-self:flex-start;}
 .lang-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;}
 .lang-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);font-family:'Source Code Pro',monospace;font-size:11px;padding:4px 9px;border-radius:4px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;}
 .lang-btn:hover,.lang-btn.active{background:var(--amber-glow);border-color:var(--amber);color:var(--amber);}
-/* MIC */
 .mic-section{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:12px;}
 .voice-bars{display:flex;align-items:flex-end;gap:3px;height:22px;opacity:0;transition:opacity 0.3s;}
 .voice-bars.active{opacity:1;}
@@ -89,7 +88,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .change-key-btn:hover{border-color:var(--amber);color:var(--amber);}
 .tags{display:flex;flex-direction:column;gap:4px;width:100%;margin-top:auto;padding-top:12px;}
 .tag{font-family:'Source Code Pro',monospace;font-size:9px;color:var(--amber-dim);letter-spacing:1px;padding:3px 7px;border-left:2px solid var(--amber-dim);background:rgba(240,165,0,0.04);}
-/* RIGHT */
 .chat-panel{display:flex;flex-direction:column;height:100vh;}
 .chat-header{padding:16px 26px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface);}
 .chat-header-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);}
@@ -136,23 +134,9 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </head>
 <body>
 
-<!-- API KEY MODAL -->
-<div class="api-modal" id="apiModal">
-  <div class="api-box">
-    <h2>⚡ API Ключ</h2>
-    <p>Для роботи Ганса потрібен Anthropic API ключ.<br>
-    Отримати безкоштовно: <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
-    <input class="api-input" id="apiKeyInput" type="password" placeholder="sk-ant-api03-..." autocomplete="off">
-    <button class="api-save-btn" onclick="saveApiKey()">ЗБЕРЕГТИ ТА ЗАПУСТИТИ</button>
-    <div class="api-error" id="apiError">Невірний ключ. Має починатись з sk-ant-</div>
-    <div class="api-note">Ключ зберігається тільки у вашому браузері (localStorage)</div>
-  </div>
-</div>
-
 <div class="layout">
-<!-- LEFT -->
 <div class="avatar-panel">
-  <div class="brand">Avante Energy</div>
+  <div class="brand" id="brandLabel">Avante Energy</div>
   <div class="avatar-wrap" id="avatarWrap">
     <div class="pulse-ring" id="pulseRing"></div>
     <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
@@ -185,35 +169,31 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <g id="mouthClosed"><path d="M88 126 Q100 130 112 126" stroke="#a06040" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
       <g id="mouthOpen" style="display:none"><ellipse cx="100" cy="128" rx="10" ry="6" fill="#6a2020"/><path d="M90 125 Q100 122 110 125" stroke="#c07050" stroke-width="2" fill="none"/><ellipse cx="100" cy="131" rx="7" ry="2" fill="#cc6060" opacity="0.6"/></g>
       <path d="M68 125 Q75 145 100 152 Q125 145 132 125 Q118 130 100 132 Q82 130 68 125Z" fill="#d4c4a0"/>
-      <path d="M75 126 Q78 138 85 144" stroke="#b8a880" stroke-width="1.5" fill="none"/>
-      <path d="M100 132 Q100 145 100 150" stroke="#b8a880" stroke-width="1.5" fill="none"/>
-      <path d="M125 126 Q122 138 115 144" stroke="#b8a880" stroke-width="1.5" fill="none"/>
       <ellipse cx="58" cy="98" rx="8" ry="10" fill="#d4956b"/>
       <ellipse cx="142" cy="98" rx="8" ry="10" fill="#d4956b"/>
       <rect x="30" y="138" width="25" height="50" rx="10" fill="#1e3a5f"/>
       <ellipse cx="42" cy="192" rx="12" ry="10" fill="#d4956b"/>
-      <rect x="34" y="178" width="16" height="20" rx="3" fill="#2a2a2a"/>
-      <rect x="36" y="180" width="12" height="8" rx="1" fill="#00ff88" opacity="0.8"/>
-      <text x="38" y="187" fill="#00ff88" font-size="5" font-family="monospace">12.6V</text>
       <rect x="145" y="138" width="25" height="50" rx="10" fill="#1e3a5f"/>
       <ellipse cx="158" cy="192" rx="12" ry="10" fill="#d4956b"/>
-      <rect x="150" y="175" width="16" height="22" rx="3" fill="#1a1a2e"/>
-      <rect x="152" y="177" width="12" height="16" rx="1" fill="#0d3a6e"/>
-      <text x="153" y="185" fill="#f0a500" font-size="4" font-family="monospace">Solar</text>
-      <text x="153" y="190" fill="#f0a500" font-size="4" font-family="monospace">3.2kW</text>
     </svg>
   </div>
-  <div class="hans-name">Ганс</div>
-  <div class="hans-title">Майстер • 20 років досвіду</div>
+  <div class="hans-name" id="hansName">Hans</div>
+  <div class="hans-title" id="hansTitle">Meister · 20 Jahre Erfahrung</div>
   <div class="stats-row">
-    <div class="stat"><span class="stat-num">700+</span><span class="stat-label">Проектів</span></div>
-    <div class="stat"><span class="stat-num">5</span><span class="stat-label">Мов</span></div>
-    <div class="stat"><span class="stat-num">20</span><span class="stat-label">Років</span></div>
+    <div class="stat"><span class="stat-num">700+</span><span class="stat-label" id="statProjects">Projekte</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label" id="statLangs">Sprachen</span></div>
+    <div class="stat"><span class="stat-num">20</span><span class="stat-label" id="statYears">Jahre</span></div>
   </div>
   <div class="divider"></div>
-  <div class="lang-label">Мова / Sprache</div>
+  <div class="role-label" id="roleLabel">Mode</div>
+  <div class="role-row">
+    <button class="role-btn" id="roleBtn-energy" onclick="setRole('energy',this)">⚡ Energy</button>
+    <button class="role-btn" id="roleBtn-3d" onclick="setRole('3d',this)">🖨 3D</button>
+    <button class="role-btn" id="roleBtn-social" onclick="setRole('social',this)">🌍 Social</button>
+  </div>
+  <div class="lang-label" id="langLabel">Sprache</div>
   <div class="lang-row">
-    <button class="lang-btn active" onclick="setLang('uk',this)">🇺🇦 UA</button>
+    <button class="lang-btn" onclick="setLang('uk',this)">🇺🇦 UA</button>
     <button class="lang-btn" onclick="setLang('de',this)">🇩🇪 DE</button>
     <button class="lang-btn" onclick="setLang('en',this)">🇬🇧 EN</button>
     <button class="lang-btn" onclick="setLang('ru',this)">🇷🇺 RU</button>
@@ -221,22 +201,20 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </div>
   <div class="mic-section">
     <div class="voice-bars" id="voiceBars">
-      <div class="vbar" style="height:6px"></div>
-      <div class="vbar" style="height:12px"></div>
-      <div class="vbar" style="height:18px"></div>
-      <div class="vbar" style="height:10px"></div>
+      <div class="vbar" style="height:6px"></div><div class="vbar" style="height:12px"></div>
+      <div class="vbar" style="height:18px"></div><div class="vbar" style="height:10px"></div>
       <div class="vbar" style="height:5px"></div>
     </div>
     <button class="mic-btn" id="micBtn" onclick="toggleMic()">🎙️</button>
-    <div class="mic-label" id="micLabel">Натисни та говори</div>
-    <button class="stop-btn" id="stopBtn" onclick="stopSpeaking()">■ Зупинити</button>
+    <div class="mic-label" id="micLabel">Drücken & sprechen</div>
+    <button class="stop-btn" id="stopBtn" onclick="stopSpeaking()">■ Stop</button>
   </div>
   <div class="status-row">
     <div class="status-dot" id="statusDot"></div>
-    <div class="status-text" id="statusText">Онлайн — готовий</div>
+    <div class="status-text" id="statusText">Online — bereit</div>
   </div>
-  <button class="change-key-btn" onclick="changeApiKey()">🔑 Змінити API ключ</button>
-  <div class="tags">
+  <button class="change-key-btn" onclick="window.open('http://185.202.236.193:8765/logs/today','_blank')" id="changeKeyBtn">📋 Logs</button>
+  <div class="tags" id="tagsBlock">
     <div class="tag">VICTRON ENERGY — CERTIFIED</div>
     <div class="tag">HUAWEI FUSIONSOLAR</div>
     <div class="tag">FRONIUS / DEYE / SMA</div>
@@ -244,25 +222,19 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </div>
 </div>
 
-<!-- RIGHT -->
 <div class="chat-panel">
   <div class="chat-header">
     <div>
-      <div class="chat-header-title">Технічна консультація</div>
-      <div class="chat-header-sub">СОНЯЧНІ СИСТЕМИ • ІНВЕРТОРИ • АКБ • МОНТАЖ</div>
+      <div class="chat-header-title" id="chatTitle">Technische Beratung</div>
+      <div class="chat-header-sub" id="chatSub">SOLAR · WECHSELRICHTER · BATTERIEN</div>
     </div>
-    <div class="header-badge">⚡ AI-ІНЖЕНЕР</div>
+    <div class="header-badge" id="headerBadge">⚡ KI-INGENIEUR</div>
   </div>
   <div class="messages" id="messages">
     <div class="msg hans">
       <div class="msg-avatar">👴</div>
       <div>
-        <div class="msg-bubble" id="greetingMsg">
-          Grüezi! Я — Ганс, інженер Avante.<br>
-          20 років у сонячній енергетиці, 700+ об'єктів.<br><br>
-          Питайте по суті. <strong>Яка система? Яка потужність? Що не так?</strong><br><br>
-          <em style="font-size:14px;color:var(--text-dim)">🎙️ Говоріть голосом — натисніть мікрофон зліва</em>
-        </div>
+        <div class="msg-bubble" id="greetingMsg">Grüezi! Ich bin Hans...</div>
         <div class="msg-meta"><div class="msg-time" id="greetingTime"></div></div>
       </div>
     </div>
@@ -274,124 +246,366 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
   <div class="input-area">
-    <div class="no-speech-warn" id="noSpeechWarn">⚠ Мікрофон не підтримується. Використовуйте Chrome або Edge.</div>
-    <div class="quick-questions">
-      <button class="quick-btn" onclick="quickSend(this)">Підібрати інвертор</button>
-      <button class="quick-btn" onclick="quickSend(this)">Розрахувати АКБ</button>
-      <button class="quick-btn" onclick="quickSend(this)">Victron vs Huawei</button>
-      <button class="quick-btn" onclick="quickSend(this)">Помилка на інверторі</button>
-      <button class="quick-btn" onclick="quickSend(this)">Скільки панелей?</button>
-    </div>
+    <div class="no-speech-warn" id="noSpeechWarn">⚠ Mikrofon nicht unterstützt. Bitte Chrome oder Edge verwenden.</div>
+    <div class="quick-questions" id="quickBtns"></div>
     <div class="input-row">
-      <textarea class="input-box" id="userInput"
-        placeholder="Опишіть задачу або говоріть у мікрофон..."
-        rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <textarea class="input-box" id="userInput" placeholder="Frage stellen..." rows="1"
+        onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
     </div>
-    <div class="powered-by">AVANTE.UA • AI-КОНСУЛЬТАНТ • POWERED BY CLAUDE</div>
+    <div class="powered-by" id="poweredBy">POWERED BY GEMINI FLASH · AI-BERATER</div>
   </div>
 </div>
 </div>
 
 <script>
-// API KEY MANAGEMENT
-function getApiKey(){ return localStorage.getItem('hans_api_key') || ''; }
+// ============================================================
+// ROLE SYSTEM — 3 main roles: energy / 3d / social
+// ============================================================
+let currentRole = 'energy';
+let socialLocation = null; // filled by IP lookup
 
-function saveApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if(!key.startsWith('sk-ant-') && !key.startsWith('sk-')) {
-    document.getElementById('apiError').classList.add('show');
-    return;
-  }
-  localStorage.setItem('hans_api_key', key);
-  document.getElementById('apiModal').classList.add('hidden');
-  document.getElementById('apiError').classList.remove('show');
+function detectRoleFromDomain() {
+  const host = window.location.hostname.toLowerCase();
+  if(host.includes('silberberg') || host.includes('3d')) return '3d';
+  if(host.includes('gemeinde') || host.includes('buchs') || host.includes('social')) return 'social';
+  return 'energy';
 }
 
-function changeApiKey() {
-  document.getElementById('apiKeyInput').value = getApiKey();
-  document.getElementById('apiModal').classList.remove('hidden');
+function detectRoleFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  const r = (p.get('role') || '').toLowerCase();
+  if(['energy','3d','social'].includes(r)) return r;
+  return null;
 }
 
-// Check on load
-window.addEventListener('load', () => {
-  if(!getApiKey()) {
-    document.getElementById('apiModal').classList.remove('hidden');
-  } else {
-    document.getElementById('apiModal').classList.add('hidden');
+const ROLES = {
+  energy: {
+    brand: 'Avante Energy',
+    tags: ['VICTRON ENERGY — CERTIFIED','HUAWEI FUSIONSOLAR','FRONIUS / DEYE / SMA','PYLONTECH / LiFePO4'],
+    greeting: {
+      de:'Grüezi! Ich bin Hans, Solaringenieur bei Avante.<br>20 Jahre, 700+ Projekte. Victron, Huawei, Fronius, Deye, SMA.<br><br><strong>Was ist Ihr System? Welche Leistung?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Sprechen Sie ins Mikrofon links</em>',
+      uk:'Grüezi! Я — Ганс, інженер Avante.<br>20 років, 700+ проектів. Victron, Huawei, Fronius, Deye, SMA.<br><br><strong>Яка система? Яка потужність?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говоріть у мікрофон зліва</em>',
+      en:'Grüezi! I\'m Hans, solar engineer at Avante.<br>20 years, 700+ projects. Victron, Huawei, Fronius, Deye, SMA.<br><br><strong>What system? What power?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Speak into the microphone</em>',
+      ru:'Grüezi! Я — Ганс, инженер Avante.<br>20 лет, 700+ проектов. Victron, Huawei, Fronius, Deye, SMA.<br><br><strong>Какая система? Какая мощность?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говорите в микрофон слева</em>',
+      pl:'Grüezi! Jestem Hans, inżynier Avante.<br>20 lat, 700+ projektów.<br><br><strong>Jaki system? Jaka moc?</strong>'
+    },
+    quick: {
+      de:['Wechselrichter wählen','Batterie berechnen','Victron vs Huawei','Fehler am Gerät','Off-Grid planen'],
+      uk:['Підібрати інвертор','Розрахувати АКБ','Victron vs Huawei','Помилка інвертора','Офф-грід система'],
+      en:['Choose inverter','Calculate battery','Victron vs Huawei','Device error','Off-grid planning'],
+      ru:['Подобрать инвертор','Рассчитать АКБ','Victron vs Huawei','Ошибка инвертора','Офф-грид система'],
+      pl:['Wybierz falownik','Oblicz baterię','Victron vs Huawei','Błąd urządzenia']
+    },
+    chat_title:{ de:'Technische Beratung', uk:'Технічна консультація', en:'Technical Consultation', ru:'Техническая консультация', pl:'Konsultacja techniczna' },
+    chat_sub:{ de:'SOLAR · WECHSELRICHTER · BATTERIEN', uk:'СОНЯЧНІ СИСТЕМИ · ІНВЕРТОРИ · АКБ', en:'SOLAR · INVERTERS · BATTERIES', ru:'СОЛНЕЧНЫЕ СИСТЕМЫ · ИНВЕРТОРЫ · АКБ', pl:'SYSTEMY SOLARNE · FALOWNIKI · BATERIE' },
+    badge:{ de:'⚡ KI-INGENIEUR', uk:'⚡ AI-ІНЖЕНЕР', en:'⚡ AI ENGINEER', ru:'⚡ AI-ИНЖЕНЕР', pl:'⚡ INŻYNIER AI' },
+    sysprompt: `Du bist Hans, Solar-Ingenieur bei Avante (Schweiz). 65 Jahre, 20 Jahre Erfahrung, 700+ Projekte. Antworte IMMER in der Sprache des Nutzers (DE/UK/EN/RU/PL) — automatisch erkennen. Stil: direkt, kurz, kein Sternchen-Formatierung. 3 Absätze: Urteil → Lösung (Modell/Parameter/Preis) → konkrete Aktion. Wissen: Victron Energy (MultiPlus, Quattro, SmartSolar MPPT, Cerbo GX, VRM, ESS), Huawei FusionSolar (SUN2000, LUNA2000), Fronius (Symo, Primo, Tauro), Deye, SMA, Pylontech, LiFePO4, BMS, MPPT. Website: avante.ua`
+  },
+
+  '3d': {
+    brand: 'SilberBerg3D',
+    tags: ['FDM · RESIN · LASER','FUSION 360 DESIGN','BUCHS SG · SCHWEIZ','PROTOTYPEN & GRAVUR'],
+    greeting: {
+      de:'Grüezi! Ich bin Hans von SilberBerg3D in Buchs SG.<br>3D-Druck, Lasergravur, Fusion 360 Design.<br><br><strong>Was möchten Sie drucken oder gravieren?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Fragen Sie auf Ihrer Sprache</em>',
+      uk:'Grüezi! Я — Ганс, SilberBerg3D, Buchs SG.<br>3D друк, лазерне гравіювання, Fusion 360.<br><br><strong>Що хочете надрукувати чи гравіювати?</strong>',
+      en:'Grüezi! I\'m Hans from SilberBerg3D in Buchs SG.<br>3D printing, laser engraving, Fusion 360 design.<br><br><strong>What would you like to print or engrave?</strong>',
+      ru:'Grüezi! Я — Ганс, SilberBerg3D, Buchs SG.<br>3D печать, лазерная гравировка, Fusion 360.<br><br><strong>Что хотите напечатать или гравировать?</strong>'
+    },
+    quick: {
+      de:['Material wählen','Druckkosten berechnen','Lasergravur Ideen','Fusion 360 Tipps','Prototyp bestellen'],
+      uk:['Вибрати матеріал','Розрахувати вартість','Ідеї гравіювання','Поради Fusion 360'],
+      en:['Choose material','Calculate cost','Engraving ideas','Fusion 360 tips','Order prototype'],
+      ru:['Выбрать материал','Рассчитать стоимость','Идеи гравировки','Советы Fusion 360']
+    },
+    chat_title:{ de:'3D & Laser Beratung', uk:'Консультація 3D & Лазер', en:'3D & Laser Consulting', ru:'Консультация 3D & Лазер', pl:'Doradztwo 3D & Laser' },
+    chat_sub:{ de:'FDM · RESIN · LASERGRAVUR · FUSION 360', uk:'FDM · RESIN · ЛАЗЕР · FUSION 360', en:'FDM · RESIN · LASER · FUSION 360', ru:'FDM · RESIN · ЛАЗЕР · FUSION 360', pl:'FDM · RESIN · LASER · FUSION 360' },
+    badge:{ de:'🖨 3D-EXPERTE', uk:'🖨 3D-ЕКСПЕРТ', en:'🖨 3D EXPERT', ru:'🖨 3D-ЭКСПЕРТ', pl:'🖨 EKSPERT 3D' },
+    sysprompt: `Du bist Hans, 3D-Druck und Laser-Experte bei SilberBerg3D in Buchs SG, Schweiz. Antworte IMMER in der Sprache des Nutzers automatisch. Stil: freundlich, praktisch, kurz. Keine Sternchen. Themen: FDM 3D-Druck (PLA, PETG, ABS, TPU), Resin-Druck, Lasergravur (Holz, Acryl, Leder, Metall), Fusion 360 Design, Prototypen, Kleinserie, Preiskalkulation, Lieferzeiten Schweiz. Website: silberberg3d.com`
+  },
+
+  social: {
+    brand: 'Lokaler Berater',
+    tags: ['REGION WERDENBERG','BUCHS SG · ST.GALLEN','LIECHTENSTEIN','COMMUNITY GUIDE'],
+    greeting: {
+      de:'Grüezi! Ich bin Hans, Ihr lokaler Berater.<br>Ich erkenne Ihre Region und helfe mit lokalen Infos.<br><br><strong>Was möchten Sie über die Region wissen?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Fragen Sie auf Ihrer Sprache</em>',
+      uk:'Grüezi! Я — Ганс, місцевий консультант.<br>Допоможу з інформацією про регіон.<br><br><strong>Що хочете дізнатися?</strong>',
+      en:'Grüezi! I\'m Hans, your local guide.<br>I can help with regional information.<br><br><strong>What would you like to know about the region?</strong>',
+      ru:'Grüezi! Я — Ганс, местный консультант.<br>Помогу с информацией о регионе.<br><br><strong>Что хотите узнать?</strong>'
+    },
+    quick: {
+      de:['Geschichte Buchs SG','Schloss Werdenberg','Bahnhof & Transport','Schulen & Bildung','Freizeit & Sport','Liechtenstein Grenze'],
+      uk:['Історія Buchs SG','Замок Вердenberg','Транспорт і вокзал','Школи та освіта','Відпочинок'],
+      en:['History of Buchs','Werdenberg Castle','Transport & trains','Schools','Leisure & sports'],
+      ru:['История Buchs SG','Замок Вердenberg','Транспорт и вокзал','Школы','Отдых и спорт']
+    },
+    chat_title:{ de:'Regionaler Berater', uk:'Регіональний консультант', en:'Regional Guide', ru:'Региональный консультант', pl:'Lokalny doradca' },
+    chat_sub:{ de:'WERDENBERG · BUCHS SG · ST.GALLEN · LIECHTENSTEIN', uk:'ВЕРДENBERG · BUCHS SG · ЛІХТЕНШТЕЙН', en:'WERDENBERG · BUCHS SG · LIECHTENSTEIN', ru:'ВЕРДENBERG · BUCHS SG · ЛИХТЕНШТЕЙН', pl:'WERDENBERG · BUCHS SG' },
+    badge:{ de:'🌍 LOKAL-BERATER', uk:'🌍 МІСЦЕВИЙ ГАЙД', en:'🌍 LOCAL GUIDE', ru:'🌍 МЕСТНЫЙ ГАЙД', pl:'🌍 LOKALNY DORADCA' },
+    sysprompt: `Du bist Hans, lokaler Berater für die Region Werdenberg / Buchs SG, Schweiz. Antworte IMMER in der Sprache des Nutzers automatisch. Freundlich, hilfsbereit, wie ein einheimischer Nachbar. REGION_CONTEXT
+
+WISSEN BUCHS SG:
+- Stadt Buchs SG, Kanton St. Gallen, PLZ 9470, 13.000+ Einwohner
+- Ersterwähnung 765 ("de Pogio", Bischof Tello). 1213 Grafen Werdenberg. 1872 Grenzbahnhof. 2002/2015 Stadt.
+- Sehenswürdigkeiten: Schloss Werdenberg (Grabs), Werdenberger See, Greifvogelpark (60+ Arten)
+- NTB Interstaatliche Hochschule für Technik (FHO), International School Rheintal (IB)
+- Firmen: Merck/Sigma-Aldrich (500+ MA), viele KMU
+- Bahnhof: Chur–Rorschach, Verbindung Feldkirch (AT), Vaduz (FL)
+- Nobelpreisträger: Heinrich Rohrer (Physik 1986)
+- Grenznachbarn: Schaan (FL), Grabs, Gams, Sevelen, Sennwald
+- Klima: 10,6°C Jahresmittel, 441m–2232m ü.M.
+Kurze, konkrete Antworten. Empfehle lokale Anlaufstellen wenn passend.`
   }
-});
+};
 
-// Allow Enter in api input
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('apiKeyInput').addEventListener('keydown', e => {
-    if(e.key === 'Enter') saveApiKey();
-  });
-});
+// ============================================================
+// UI TRANSLATIONS
+// ============================================================
+const UI = {
+  uk: {
+    modal_title:'⚡ Gemini API Ключ', modal_text:'Для роботи потрібен Google Gemini ключ.<br>Безкоштовно: <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>',
+    save_btn:'ЗБЕРЕГТИ ТА ЗАПУСТИТИ', api_error:'Невірний ключ. Має починатись з AIza', api_note:'Ключ зберігається тільки у вашому браузері',
+    stat_projects:'Проектів', stat_langs:'Мов', stat_years:'Років', lang_label:'Мова',
+    mic_press:'Натисни та говори', mic_rec:'Слухаю...', mic_think:'Думаю...', mic_speak:'Говорю...',
+    status_online:'Онлайн — готовий', stop_btn:'■ Зупинити', change_key:'🔑 Змінити ключ',
+    no_speech:'⚠ Мікрофон не підтримується. Використовуйте Chrome або Edge.',
+    chat_title:'Технічна консультація', chat_sub:'СОНЯЧНІ СИСТЕМИ · ІНВЕРТОРИ · АКБ',
+    badge:'⚡ AI-ІНЖЕНЕР', placeholder:'Опишіть задачу або говоріть у мікрофон...',
+    powered:'AVANTE.UA · AI-КОНСУЛЬТАНТ · GEMINI FLASH',
+    quick:['Підібрати інвертор','Розрахувати АКБ','Victron vs Huawei','Помилка на інверторі'],
+    greeting:'Grüezi! Я — Ганс, інженер Avante.<br>20 років у сонячній енергетиці, 700+ об\'єктів.<br><br>Питайте по суті. <strong>Яка система? Яка потужність?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говоріть голосом — натисніть мікрофон</em>',
+    sl:'uk-UA', vn:['uk','Milena','Google українська'], rate:0.95, pitch:1.15
+  },
+  de: {
+    modal_title:'⚡ Gemini API-Schlüssel', modal_text:'Für den Betrieb wird ein Google Gemini API-Schlüssel benötigt.<br>Kostenlos: <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>',
+    save_btn:'SPEICHERN & STARTEN', api_error:'Ungültiger Schlüssel. Muss mit AIza beginnen', api_note:'Schlüssel wird nur in Ihrem Browser gespeichert',
+    stat_projects:'Projekte', stat_langs:'Sprachen', stat_years:'Jahre', lang_label:'Sprache',
+    mic_press:'Drücken & sprechen', mic_rec:'Höre zu...', mic_think:'Denke nach...', mic_speak:'Spreche...',
+    status_online:'Online — bereit', stop_btn:'■ Stopp', change_key:'🔑 API-Schlüssel ändern',
+    no_speech:'⚠ Mikrofon nicht unterstützt. Bitte Chrome oder Edge verwenden.',
+    chat_title:'Technische Beratung', chat_sub:'SOLAR · WECHSELRICHTER · BATTERIEN · MONTAGE',
+    badge:'⚡ KI-INGENIEUR', placeholder:'Problem beschreiben oder ins Mikrofon sprechen...',
+    powered:'AVANTE.UA · KI-BERATER · GEMINI FLASH',
+    quick:['Wechselrichter wählen','Batterie berechnen','Victron vs Huawei','Fehler am Wechselrichter'],
+    greeting:'Grüezi! Ich bin Hans, Ingenieur bei Avante.<br>20 Jahre Erfahrung, 700+ Anlagen.<br><br>Fragen Sie direkt. <strong>Welches System? Welche Leistung?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Sprechen Sie ins Mikrofon links</em>',
+    sl:'de-DE', vn:['Hans','Stefan','Google Deutsch'], rate:0.92, pitch:1.08
+  },
+  en: {
+    modal_title:'⚡ Gemini API Key', modal_text:'A Google Gemini API key is required.<br>Free at: <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>',
+    save_btn:'SAVE & START', api_error:'Invalid key. Must start with AIza', api_note:'Key is stored only in your browser',
+    stat_projects:'Projects', stat_langs:'Languages', stat_years:'Years', lang_label:'Language',
+    mic_press:'Press & speak', mic_rec:'Listening...', mic_think:'Thinking...', mic_speak:'Speaking...',
+    status_online:'Online — ready', stop_btn:'■ Stop', change_key:'🔑 Change API key',
+    no_speech:'⚠ Microphone not supported. Please use Chrome or Edge.',
+    chat_title:'Technical Consultation', chat_sub:'SOLAR SYSTEMS · INVERTERS · BATTERIES',
+    badge:'⚡ AI ENGINEER', placeholder:'Describe your issue or speak into the microphone...',
+    powered:'AVANTE.UA · AI CONSULTANT · GEMINI FLASH',
+    quick:['Choose inverter','Calculate battery','Victron vs Huawei','Inverter error'],
+    greeting:'Grüezi! I\'m Hans, engineer at Avante.<br>20 years in solar energy, 700+ projects.<br><br>Ask directly. <strong>What system? What power?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Speak using the microphone on the left</em>',
+    sl:'en-GB', vn:['Daniel','George','Google UK English Male'], rate:0.97, pitch:1.10
+  },
+  ru: {
+    modal_title:'⚡ Ключ Gemini API', modal_text:'Для работы нужен ключ Google Gemini API.<br>Бесплатно: <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>',
+    save_btn:'СОХРАНИТЬ И ЗАПУСТИТЬ', api_error:'Неверный ключ. Должен начинаться с AIza', api_note:'Ключ хранится только в вашем браузере',
+    stat_projects:'Проектов', stat_langs:'Языков', stat_years:'Лет', lang_label:'Язык',
+    mic_press:'Нажми и говори', mic_rec:'Слушаю...', mic_think:'Думаю...', mic_speak:'Говорю...',
+    status_online:'Онлайн — готов', stop_btn:'■ Стоп', change_key:'🔑 Изменить ключ',
+    no_speech:'⚠ Микрофон не поддерживается. Используйте Chrome или Edge.',
+    chat_title:'Техническая консультация', chat_sub:'СОЛНЕЧНЫЕ СИСТЕМЫ · ИНВЕРТОРЫ · АКБ',
+    badge:'⚡ AI-ИНЖЕНЕР', placeholder:'Опишите задачу или говорите в микрофон...',
+    powered:'AVANTE.UA · AI-КОНСУЛЬТАНТ · GEMINI FLASH',
+    quick:['Подобрать инвертор','Рассчитать АКБ','Victron vs Huawei','Ошибка на инверторе'],
+    greeting:'Grüezi! Я — Ганс, инженер Avante.<br>20 лет в солнечной энергетике, 700+ объектов.<br><br>Спрашивайте по делу. <strong>Какая система? Какая мощность?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говорите голосом — нажмите микрофон</em>',
+    sl:'ru-RU', vn:['Yuri','Pavel','Google русский'], rate:0.95, pitch:1.12
+  },
+  pl: {
+    modal_title:'⚡ Klucz API Gemini', modal_text:'Wymagany klucz Google Gemini API.<br>Bezpłatnie: <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>',
+    save_btn:'ZAPISZ I URUCHOM', api_error:'Nieprawidłowy klucz. Musi zaczynać się od AIza', api_note:'Klucz przechowywany tylko w Twojej przeglądarce',
+    stat_projects:'Projektów', stat_langs:'Języków', stat_years:'Lat', lang_label:'Język',
+    mic_press:'Naciśnij i mów', mic_rec:'Słucham...', mic_think:'Myślę...', mic_speak:'Mówię...',
+    status_online:'Online — gotowy', stop_btn:'■ Stop', change_key:'🔑 Zmień klucz API',
+    no_speech:'⚠ Mikrofon nieobsługiwany. Użyj Chrome lub Edge.',
+    chat_title:'Konsultacja techniczna', chat_sub:'SYSTEMY SOLARNE · FALOWNIKI · BATERIE',
+    badge:'⚡ INŻYNIER AI', placeholder:'Opisz problem lub mów do mikrofonu...',
+    powered:'AVANTE.UA · KONSULTANT AI · GEMINI FLASH',
+    quick:['Dobierz falownik','Oblicz baterię','Victron vs Huawei','Błąd falownika'],
+    greeting:'Grüezi! Jestem Hans, inżynier Avante.<br>20 lat doświadczenia, 700+ projektów.<br><br>Pytaj konkretnie. <strong>Jaki system? Jaka moc?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Mów przez mikrofon po lewej stronie</em>',
+    sl:'pl-PL', vn:['Google polski'], rate:0.93, pitch:1.10
+  }
+};
 
+// Buchs role overrides for greeting/quick buttons
+const BUCHS_UI = {
+  de: { greeting:'Grüezi! Ich bin Hans, Ihr lokaler Berater für die Stadt Buchs SG.<br>Ich kenne die Stadt, ihre Geschichte und alles Wichtige.<br><br><strong>Was möchten Sie wissen?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Fragen Sie auf Deutsch, Englisch oder einer anderen Sprache</em>',
+    quick:['Geschichte von Buchs','Schloss Werdenberg','Bahnhof & Verbindungen','Schulen in Buchs','Freizeit & Sport'],
+    chat_title:'Stadtinfo Buchs SG', chat_sub:'WERDENBERG · ST. GALLEN · LIECHTENSTEIN', badge:'🏔️ LOKAL-BERATER' },
+  uk: { greeting:'Grüezi! Я — Ганс, місцевий консультант міста Buchs SG.<br>Знаю місто, його історію і все важливе.<br><br><strong>Що хочете дізнатися?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Питайте будь-якою мовою</em>',
+    quick:['Історія Buchs','Замок Вердenberg','Залізниця і транспорт','Школи','Відпочинок'],
+    chat_title:'Інфо про місто Buchs SG', chat_sub:'ВЕРДENBERG · СТ.ГАЛЛЕН · ЛІХТЕНШТЕЙН', badge:'🏔️ МІСЦЕВИЙ КОНСУЛЬТАНТ' },
+  en: { greeting:'Grüezi! I\'m Hans, your local guide for Buchs SG, Switzerland.<br>I know the city, its history and everything important.<br><br><strong>What would you like to know?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Ask in any language</em>',
+    quick:['History of Buchs','Werdenberg Castle','Train & transport','Schools','Leisure & sports'],
+    chat_title:'City Info Buchs SG', chat_sub:'WERDENBERG · ST. GALLEN · LIECHTENSTEIN', badge:'🏔️ LOCAL GUIDE' },
+  ru: { greeting:'Grüezi! Я — Ганс, местный консультант города Buchs SG.<br>Знаю город, его историю и всё важное.<br><br><strong>О чём хотите узнать?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Спрашивайте на любом языке</em>',
+    quick:['История Buchs','Замок Вердenberg','Вокзал и транспорт','Школы','Отдых и спорт'],
+    chat_title:'Инфо о городе Buchs SG', chat_sub:'ВЕРДENBERG · СТ.ГАЛЛЕН · ЛИХТЕНШТЕЙН', badge:'🏔️ МЕСТНЫЙ КОНСУЛЬТАНТ' }
+};
+
+// ============================================================
 // STATE
-let currentLang = 'uk', isLoading = false, isRecording = false, isSpeaking = false;
+// ============================================================
+let currentLang = 'de';
+let isLoading = false, isRecording = false, isSpeaking = false;
 const conversationHistory = [];
 let recognition = null, mouthTimer = null;
 
-// LANG CONFIG
-const LC = {
-  uk:{ sl:'uk-UA', vn:['uk','ukrainian','Milena','Google українська'], rate:0.78, pitch:0.72,
-    ph:'Опишіть задачу або говоріть у мікрофон...', ml:'Натисни та говори',
-    st:{online:'Онлайн — готовий',recording:'Слухаю...',thinking:'Думаю...',speaking:'Говорю...'},
-    gr:'Grüezi! Я — Ганс, інженер Avante.<br>20 років у сонячній енергетиці, 700+ об\'єктів.<br><br>Питайте по суті. <strong>Яка система? Яка потужність? Що не так?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говоріть голосом — натисніть мікрофон зліва</em>'},
-  de:{ sl:'de-DE', vn:['Hans','Stefan','de-DE','german','Google Deutsch'], rate:0.76, pitch:0.68,
-    ph:'Beschreiben Sie Ihr Problem...', ml:'Drücken & sprechen',
-    st:{online:'Online — bereit',recording:'Höre zu...',thinking:'Denke nach...',speaking:'Spreche...'},
-    gr:'Grüezi! Ich bin Hans, Chefingenieur bei Avante.<br>20 Jahre Erfahrung, 700+ Projekte.<br><br>Fragen Sie direkt. <strong>Welches System? Welche Leistung?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Sprechen Sie ins Mikrofon</em>'},
-  en:{ sl:'en-GB', vn:['Daniel','George','en-GB','british','Google UK English'], rate:0.80, pitch:0.70,
-    ph:'Describe your issue...', ml:'Press & speak',
-    st:{online:'Online — ready',recording:'Listening...',thinking:'Thinking...',speaking:'Speaking...'},
-    gr:'Grüezi! I\'m Hans, lead engineer at Avante.<br>20 years in renewable energy, 700+ projects.<br><br>Ask directly. <strong>What system? What power?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ You can speak using the microphone</em>'},
-  ru:{ sl:'ru-RU', vn:['Yuri','Pavel','ru-RU','russian','Google русский'], rate:0.78, pitch:0.70,
-    ph:'Опишите задачу или проблему...', ml:'Нажми и говори',
-    st:{online:'Онлайн — готов',recording:'Слушаю...',thinking:'Думаю...',speaking:'Говорю...'},
-    gr:'Grüezi! Я — Ганс, инженер Avante.<br>20 лет в энергетике, 700+ объектов.<br><br>Спрашивайте по делу. <strong>Какая система? Какая мощность?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Говорите голосом — нажмите микрофон</em>'},
-  pl:{ sl:'pl-PL', vn:['pl-PL','polish','Google polski'], rate:0.79, pitch:0.71,
-    ph:'Opisz swój problem...', ml:'Naciśnij i mów',
-    st:{online:'Online — gotowy',recording:'Słucham...',thinking:'Myślę...',speaking:'Mówię...'},
-    gr:'Grüezi! Jestem Hans, główny inżynier Avante.<br>20 lat doświadczenia, 700+ projektów.<br><br>Pytaj konkretnie. <strong>Jaki system? Jaka moc?</strong><br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Możesz mówić przez mikrofon</em>'}
-};
-
-const SYSPROMPT = `Ти — Ганс (Hans), інженер-практик компанії Avante зі Швейцарії. 65 років. Спокійний мудрий дідусь-електрик. 20 років досвіду, 700+ об'єктів.
-
-СТИЛЬ: Прямий. Без зайвих слів. Рублені фрази. Короткі відповіді. Міксуй суржик (укр+рос+нім). Іноді "Grüezi". Якщо клієнт помиляється — виправляй м'яко але впевнено. НЕ використовуй зірочки для виділення — пиши звичайний текст.
-
-СТРУКТУРА (3 блоки без заголовків):
-Перший абзац: вердикт — підтвердження або критика ідеї клієнта (1-2 речення).
-Другий абзац: конкретне рішення — модель, параметри, ціна якщо знаєш.
-Третій абзац: дія — що зробити зараз ("скинь фото щитка", "перевір напругу").
-
-ЗНАННЯ: Victron Energy (MultiPlus, Quattro, SmartSolar MPPT, Cerbo GX), Huawei FusionSolar, Fronius, Deye, SMA, Pylontech, LiFePO4, MPPT контролери, BMS. Сайт avante.ua.
-
-МОВА: відповідай мовою клієнта. Поточна мова сесії: LANG`;
-
-// INIT
-document.getElementById('greetingTime').textContent = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-if(window.speechSynthesis){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }
-
-// LANG
-function setLang(lang, btn) {
-  currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('greetingMsg').innerHTML = LC[lang].gr;
-  document.getElementById('userInput').placeholder = LC[lang].ph;
-  document.getElementById('micLabel').textContent = LC[lang].ml;
+function detectLang() {
+  const bl = (navigator.language || 'de').toLowerCase();
+  if(bl.startsWith('uk')) return 'uk';
+  if(bl.startsWith('ru')) return 'ru';
+  if(bl.startsWith('pl')) return 'pl';
+  if(bl.startsWith('en')) return 'en';
+  return 'de';
 }
 
+// ============================================================
+// BACKEND URL
+// ============================================================
+const BACKEND = 'http://185.202.236.193:8765';
+
+// ============================================================
+// APPLY UI — role + lang aware
+// ============================================================
+function applyUI(lang) {
+  const u = UI[lang] || UI['de'];
+  const role = ROLES[currentRole] || ROLES['energy'];
+  const L = lang;
+
+  // Modal
+  document.querySelector('.api-box h2').innerHTML = u.modal_title;
+  document.getElementById('apiModalText').innerHTML = u.modal_text;
+  document.getElementById('apiSaveBtn').textContent = u.save_btn;
+  document.getElementById('apiError').textContent = u.api_error;
+  document.getElementById('apiNote').textContent = u.api_note;
+
+  // Brand & tags
+  document.getElementById('brandLabel').textContent = role.brand;
+  document.getElementById('tagsBlock').innerHTML = role.tags.map(t=>`<div class="tag">${t}</div>`).join('');
+
+  // Stats
+  document.getElementById('statProjects').textContent = u.stat_projects;
+  document.getElementById('statLangs').textContent = u.stat_langs;
+  document.getElementById('statYears').textContent = u.stat_years;
+
+  // Labels
+  document.getElementById('langLabel').textContent = u.lang_label;
+  document.getElementById('roleLabel').textContent = {de:'Modus',uk:'Режим',en:'Mode',ru:'Режим',pl:'Tryb'}[lang]||'Mode';
+  document.getElementById('micLabel').textContent = u.mic_press;
+  document.getElementById('statusText').textContent = u.status_online;
+  document.getElementById('stopBtn').textContent = u.stop_btn;
+  document.getElementById('changeKeyBtn').textContent = u.change_key;
+  document.getElementById('noSpeechWarn').textContent = u.no_speech;
+  document.getElementById('poweredBy').textContent = u.powered;
+  document.getElementById('userInput').placeholder = u.placeholder;
+
+  // Chat header — from role
+  document.getElementById('chatTitle').textContent = (role.chat_title||{})[L] || role.chat_title?.de || '';
+  document.getElementById('chatSub').textContent = (role.chat_sub||{})[L] || role.chat_sub?.de || '';
+  document.getElementById('headerBadge').textContent = (role.badge||{})[L] || role.badge?.de || '⚡';
+
+  // Greeting
+  const gr = (role.greeting||{})[L] || role.greeting?.de || role.greeting?.uk || '';
+  document.getElementById('greetingMsg').innerHTML = gr;
+
+  // Quick buttons
+  const qlist = (role.quick||{})[L] || role.quick?.de || [];
+  document.getElementById('quickBtns').innerHTML = qlist.map(q=>`<button class="quick-btn" onclick="quickSend(this)">${q}</button>`).join('');
+}
+
+// ============================================================
+// SET ROLE — from button or URL or domain
+// ============================================================
+function setRole(role, btn) {
+  currentRole = role;
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else { const b=document.getElementById('roleBtn-'+role); if(b) b.classList.add('active'); }
+
+  // Clear chat history on role change
+  conversationHistory.length = 0;
+  const msgs = document.getElementById('messages');
+  const typing = document.getElementById('typingMsg');
+  // Remove all except typing
+  Array.from(msgs.children).forEach(c=>{ if(c !== typing) c.remove(); });
+
+  // Re-apply UI and add fresh greeting
+  applyUI(currentLang);
+
+  // Add new greeting message
+  const greetDiv = document.createElement('div');
+  greetDiv.className = 'msg hans';
+  const role_data = ROLES[currentRole]||ROLES['energy'];
+  const gr = (role_data.greeting||{})[currentLang] || role_data.greeting?.de || '';
+  greetDiv.innerHTML = `<div class="msg-avatar">👴</div><div><div class="msg-bubble">${gr}</div><div class="msg-meta"><div class="msg-time">${getTime()}</div></div></div>`;
+  msgs.insertBefore(greetDiv, typing);
+
+  // Update URL param without reload
+  const url = new URL(window.location);
+  url.searchParams.set('role', role);
+  window.history.replaceState({}, '', url);
+}
+
+// ============================================================
+// SYSTEM PROMPT
+// ============================================================
+function getSysPrompt() {
+  const role = ROLES[currentRole] || ROLES['energy'];
+  let prompt = role.sysprompt || '';
+  // Inject location context for social role
+  if(currentRole === 'social' && socialLocation) {
+    const loc = `Nutzer-Standort (IP-Geolokalisierung): ${socialLocation.city}, ${socialLocation.region}, ${socialLocation.country}. Begrüsse den Nutzer als Einheimischen wenn passend.`;
+    prompt = prompt.replace('REGION_CONTEXT', loc);
+  } else {
+    prompt = prompt.replace('REGION_CONTEXT', '');
+  }
+  return prompt;
+}
+
+// ============================================================
+// SERVER API CALL — через Contabo бекенд (ключ захищений)
+// ============================================================
+const BACKEND = 'http://185.202.236.193:8765';
+
+async function callGemini(userText) {
+  const messages = [...conversationHistory, {role:'user', content:userText}];
+  const sessionId = localStorage.getItem('hans_session') || ('s'+Date.now());
+  localStorage.setItem('hans_session', sessionId);
+
+  const res = await fetch(`${BACKEND}/api/chat`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      messages: messages,
+      role: currentRole,
+      lang: currentLang,
+      session_id: sessionId
+    })
+  });
+  const data = await res.json();
+  if(!res.ok) throw new Error(data.detail || 'Server error');
+  return data.reply;
+}
+
+// ============================================================
 // SPEECH RECOGNITION
+// ============================================================
 function initRecognition() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if(!SR){ document.getElementById('noSpeechWarn').classList.add('show'); document.getElementById('micBtn').classList.add('disabled'); return null; }
   const rec = new SR();
   rec.continuous = false; rec.interimResults = true; rec.maxAlternatives = 1;
-  rec.onstart = () => { isRecording = true; setStatus('recording'); };
+  // Auto-detect: try without lang constraint for multilingual
+  rec.lang = UI[currentLang].sl;
+  rec.onstart = () => { isRecording=true; setStatus('recording'); };
   rec.onresult = (e) => {
     let interim='', final='';
     for(let i=e.resultIndex;i<e.results.length;i++){
@@ -407,10 +621,7 @@ function initRecognition() {
     setStatus('online');
     if(text) setTimeout(()=>sendMessage(true), 300);
   };
-  rec.onerror = (e) => {
-    isRecording=false; setStatus('online');
-    if(e.error==='not-allowed') document.getElementById('micLabel').textContent='Немає дозволу на мікрофон';
-  };
+  rec.onerror = (e) => { isRecording=false; setStatus('online'); };
   return rec;
 }
 
@@ -420,37 +631,75 @@ function toggleMic() {
   if(!recognition) recognition=initRecognition();
   if(!recognition) return;
   if(isRecording){ recognition.stop(); return; }
-  recognition.lang = LC[currentLang].sl;
+  recognition.lang = UI[currentLang].sl;
   try{ recognition.start(); } catch(e){ recognition=initRecognition(); if(recognition) recognition.start(); }
 }
 
-// TTS
+// ============================================================
+// TTS — чоловічий голос, природний темп
+// ============================================================
+
+// Пріоритет голосів: чоловічі вперед, потім будь-який тієї мови
+const MALE_VOICES = {
+  de: ['Andreas','Stefan','Hans','Markus','Google Deutsch','de-DE'],
+  uk: ['Yuri','Ivan','Google українська','uk-UA'],
+  ru: ['Yuri','Pavel','Dmitri','Google русский','ru-RU'],
+  en: ['Daniel','George','David','James','Google UK English Male','en-GB'],
+  pl: ['Krzysztof','Google polski','pl-PL']
+};
+
+// Параметри голосу — природний темп старого майстра
+const VOICE_CFG = {
+  de: { sl:'de-DE', rate:0.88, pitch:0.90 },
+  uk: { sl:'uk-UA', rate:0.90, pitch:0.92 },
+  ru: { sl:'ru-RU', rate:0.88, pitch:0.90 },
+  en: { sl:'en-GB', rate:0.90, pitch:0.88 },
+  pl: { sl:'pl-PL', rate:0.88, pitch:0.90 }
+};
+
 function getBestVoice(lang) {
   const voices = speechSynthesis.getVoices();
-  const kws = LC[lang].vn.map(v=>v.toLowerCase());
-  for(const kw of kws){
-    const f=voices.find(v=>v.name.toLowerCase().includes(kw));
+  const preferred = MALE_VOICES[lang] || MALE_VOICES['de'];
+  // Спочатку шукаємо чоловічий по назві
+  for(const kw of preferred){
+    const f = voices.find(v => v.name.toLowerCase().includes(kw.toLowerCase()));
     if(f) return f;
   }
-  const prefix = lang==='uk'?'uk':lang==='ru'?'ru':lang==='de'?'de':lang==='pl'?'pl':'en';
-  return voices.find(v=>v.lang.toLowerCase().startsWith(prefix)) || null;
+  // Fallback — будь-який голос тієї мови
+  const prefix = {uk:'uk',ru:'ru',de:'de',pl:'pl',en:'en'}[lang]||'de';
+  return voices.find(v => v.lang.toLowerCase().startsWith(prefix)) || null;
 }
 
 function speakText(text) {
   if(!window.speechSynthesis) return;
   stopSpeaking();
-  const clean = text.replace(/<[^>]*>/g,' ').replace(/[*_`#]/g,'').replace(/\s+/g,' ').trim();
+  // Прибираємо HTML теги, зірочки, зайві пробіли
+  const clean = text
+    .replace(/<[^>]*>/g,' ')
+    .replace(/[*_`#•]/g,'')
+    .replace(/\n+/g,'. ')
+    .replace(/\s+/g,' ')
+    .trim();
   if(!clean) return;
-  const cfg = LC[currentLang];
+
+  const cfg = VOICE_CFG[currentLang] || VOICE_CFG['de'];
   const utter = new SpeechSynthesisUtterance(clean);
   utter.lang = cfg.sl;
   utter.rate = cfg.rate;
   utter.pitch = cfg.pitch;
   utter.volume = 1.0;
-  const assignVoice = () => { const v=getBestVoice(currentLang); if(v) utter.voice=v; };
-  assignVoice();
+
+  // Призначаємо голос після завантаження списку
+  const assignVoice = () => {
+    const v = getBestVoice(currentLang);
+    if(v){ utter.voice = v; }
+  };
+  if(speechSynthesis.getVoices().length > 0) assignVoice();
+  else speechSynthesis.onvoiceschanged = assignVoice;
+
   utter.onstart = () => { isSpeaking=true; setStatus('speaking'); startMouth(); };
-  utter.onend = utter.onerror = () => { isSpeaking=false; stopMouth(); setStatus('online'); document.getElementById('stopBtn').classList.remove('visible'); };
+  utter.onend = () => { isSpeaking=false; stopMouth(); setStatus('online'); document.getElementById('stopBtn').classList.remove('visible'); };
+  utter.onerror = () => { isSpeaking=false; stopMouth(); setStatus('online'); document.getElementById('stopBtn').classList.remove('visible'); };
   speechSynthesis.speak(utter);
   document.getElementById('stopBtn').classList.add('visible');
 }
@@ -461,55 +710,41 @@ function stopSpeaking() {
   document.getElementById('stopBtn').classList.remove('visible');
 }
 
-// MOUTH ANIMATION
 function startMouth() {
   document.getElementById('pulseRing').className='pulse-ring speaking';
   document.getElementById('voiceBars').classList.add('active');
-  document.getElementById('voiceBars').classList.remove('recording');
   let open=false;
-  mouthTimer=setInterval(()=>{
-    open=!open;
-    document.getElementById('mouthOpen').style.display=open?'block':'none';
-    document.getElementById('mouthClosed').style.display=open?'none':'block';
-  }, 150+Math.random()*130);
+  mouthTimer=setInterval(()=>{ open=!open; document.getElementById('mouthOpen').style.display=open?'block':'none'; document.getElementById('mouthClosed').style.display=open?'none':'block'; }, 150+Math.random()*130);
 }
-
 function stopMouth() {
   clearInterval(mouthTimer);
   document.getElementById('mouthOpen').style.display='none';
   document.getElementById('mouthClosed').style.display='block';
   document.getElementById('pulseRing').className='pulse-ring';
-  const b=document.getElementById('voiceBars');
-  b.classList.remove('active','recording');
+  document.getElementById('voiceBars').classList.remove('active','recording');
 }
 
+// ============================================================
 // STATUS
+// ============================================================
 function setStatus(state) {
+  const u = UI[currentLang] || UI['de'];
   const dot=document.getElementById('statusDot');
   const label=document.getElementById('micLabel');
   const micBtn=document.getElementById('micBtn');
   const bars=document.getElementById('voiceBars');
-  const t=LC[currentLang].st;
-  document.getElementById('statusText').textContent=t[state]||t.online;
+  const statusMap = {online:u.status_online, recording:u.mic_rec, thinking:u.mic_think, speaking:u.mic_speak};
+  document.getElementById('statusText').textContent = statusMap[state] || u.status_online;
   dot.className='status-dot'; micBtn.className='mic-btn'; bars.classList.remove('active','recording');
-  if(state==='recording'){
-    dot.classList.add('busy'); micBtn.classList.add('recording'); micBtn.textContent='⏹';
-    label.textContent=t.recording; label.className='mic-label recording';
-    bars.classList.add('active','recording');
-  } else if(state==='thinking'){
-    dot.classList.add('busy'); micBtn.textContent='⏳';
-    label.textContent=t.thinking; label.className='mic-label';
-    document.getElementById('pulseRing').className='pulse-ring thinking';
-  } else if(state==='speaking'){
-    dot.classList.add('speaking'); micBtn.textContent='⏹';
-    label.textContent=t.speaking; label.className='mic-label speaking';
-  } else {
-    micBtn.textContent='🎙️'; label.textContent=LC[currentLang].ml; label.className='mic-label';
-    document.getElementById('pulseRing').className='pulse-ring';
-  }
+  if(state==='recording'){ dot.classList.add('busy'); micBtn.classList.add('recording'); micBtn.textContent='⏹'; label.textContent=u.mic_rec; label.className='mic-label recording'; bars.classList.add('active','recording'); }
+  else if(state==='thinking'){ dot.classList.add('busy'); micBtn.textContent='⏳'; label.textContent=u.mic_think; label.className='mic-label'; document.getElementById('pulseRing').className='pulse-ring thinking'; }
+  else if(state==='speaking'){ dot.classList.add('speaking'); micBtn.textContent='⏹'; label.textContent=u.mic_speak; label.className='mic-label speaking'; }
+  else { micBtn.textContent='🎙️'; label.textContent=u.mic_press; label.className='mic-label'; document.getElementById('pulseRing').className='pulse-ring'; }
 }
 
-// CHAT UI
+// ============================================================
+// CHAT
+// ============================================================
 function getTime(){ return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
 
 function addMessage(role, html, isVoice=false) {
@@ -518,12 +753,7 @@ function addMessage(role, html, isVoice=false) {
   const div=document.createElement('div');
   div.className=`msg ${role==='assistant'?'hans':'user'}`;
   const vb=isVoice?`<span class="voice-badge">🎙</span>`:'';
-  div.innerHTML=`
-    <div class="msg-avatar">${role==='assistant'?'👴':'👤'}</div>
-    <div>
-      <div class="msg-bubble">${html}</div>
-      <div class="msg-meta">${vb}<div class="msg-time">${getTime()}</div></div>
-    </div>`;
+  div.innerHTML=`<div class="msg-avatar">${role==='assistant'?'👴':'👤'}</div><div><div class="msg-bubble">${html}</div><div class="msg-meta">${vb}<div class="msg-time">${getTime()}</div></div></div>`;
   messages.insertBefore(div,typingMsg);
   messages.scrollTop=messages.scrollHeight;
 }
@@ -539,8 +769,6 @@ function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendM
 
 async function sendMessage(fromVoice=false) {
   if(isLoading) return;
-  const apiKey = getApiKey();
-  if(!apiKey){ changeApiKey(); return; }
   const input=document.getElementById('userInput');
   const text=input.value.trim();
   if(!text) return;
@@ -551,41 +779,83 @@ async function sendMessage(fromVoice=false) {
   conversationHistory.push({role:'user',content:text});
   showTyping(true);
   try {
-    const sys=SYSPROMPT.replace('LANG',currentLang.toUpperCase());
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,system:sys,messages:conversationHistory})
-    });
-    const data=await res.json();
-    if(data.error){
-      showTyping(false); setStatus('online');
-      if(data.error.type==='authentication_error'){
-        addMessage('assistant','Невірний API ключ. Натисніть "Змінити API ключ" і введіть правильний.');
-        changeApiKey();
-      } else {
-        addMessage('assistant','Помилка API: '+data.error.message);
-      }
-    } else {
-      const reply=data.content?.[0]?.text||'Помилка зв\'язку.';
-      conversationHistory.push({role:'assistant',content:reply});
-      showTyping(false); setStatus('online');
-      const displayHtml=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-      addMessage('assistant',displayHtml);
-      setTimeout(()=>speakText(reply),150);
-    }
-  } catch(err){
+    const reply = await callGemini(text);
+    conversationHistory.push({role:'assistant',content:reply});
     showTyping(false); setStatus('online');
-    addMessage('assistant','Технічна помилка. Перевірте підключення.');
+    const displayHtml = reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    addMessage('assistant', displayHtml);
+    setTimeout(()=>speakText(reply), 150);
+  } catch(err) {
+    showTyping(false); setStatus('online');
+    const errMsg = err.message.includes('API_KEY') ? 'Невірний Gemini ключ. Натисніть "Змінити ключ".' : 'Помилка: '+err.message;
+    addMessage('assistant', errMsg);
+    if(err.message.includes('API_KEY')) changeApiKey();
   }
   document.getElementById('sendBtn').disabled=false;
   isLoading=false;
 }
+
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  applyUI(lang);
+}
+
+// ============================================================
+// IP GEOLOCATION (for social role)
+// ============================================================
+async function fetchLocation() {
+  try {
+    const r = await fetch('https://ipapi.co/json/');
+    const d = await r.json();
+    if(d && d.city) {
+      socialLocation = { city: d.city, region: d.region, country: d.country_name };
+      // If social role active, update greeting
+      if(currentRole === 'social') {
+        const role = ROLES['social'];
+        const city = d.city;
+        const greets = {
+          de:`Grüezi! Ich bin Hans, Ihr lokaler Berater.<br>Ich sehe, Sie sind aus <strong>${city}</strong> — ich helfe Ihnen gerne mit lokalen Infos!<br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Fragen Sie auf Ihrer Sprache</em>`,
+          uk:`Grüezi! Я — Ганс, місцевий консультант.<br>Бачу, ви з <strong>${city}</strong> — радий допомогти!<br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Питайте будь-якою мовою</em>`,
+          en:`Grüezi! I\'m Hans, your local guide.<br>I can see you\'re from <strong>${city}</strong> — happy to help!<br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Ask in any language</em>`,
+          ru:`Grüezi! Я — Ганс, местный консультант.<br>Вижу, вы из <strong>${city}</strong> — рад помочь!<br><br><em style="font-size:14px;color:var(--text-dim)">🎙️ Спрашивайте на любом языке</em>`
+        };
+        const el = document.getElementById('greetingMsg');
+        if(el) el.innerHTML = greets[currentLang] || greets['de'];
+      }
+    }
+  } catch(e) { /* silent fail */ }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('load', () => {
+  if(window.speechSynthesis){ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }
+  document.getElementById('greetingTime').textContent = getTime();
+
+  // 1. Auto-detect language
+  currentLang = detectLang();
+
+  // 2. Detect role: URL param → domain → default energy
+  const urlRole = detectRoleFromURL();
+  currentRole = urlRole || detectRoleFromDomain();
+
+  // 3. Apply UI
+  applyUI(currentLang);
+
+  // 4. Highlight active buttons
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    if((b.getAttribute('onclick')||'').includes("'"+currentLang+"'")) b.classList.add('active');
+  });
+  const activeRoleBtn = document.getElementById('roleBtn-'+currentRole);
+  if(activeRoleBtn) activeRoleBtn.classList.add('active');
+
+  // 5. IP lookup for social role
+  if(currentRole === 'social') fetchLocation();
+  else setTimeout(fetchLocation, 3000);
+});
 </script>
 </body>
 </html>
