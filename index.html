@@ -213,7 +213,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <div class="status-dot" id="statusDot"></div>
     <div class="status-text" id="statusText">Online — bereit</div>
   </div>
-  <button class="change-key-btn" onclick="window.open('http://185.202.236.193:8765/logs/today','_blank')" id="changeKeyBtn">📋 Logs</button>
+  <button class="change-key-btn" onclick="window.open('https://hans.avante.ua/api/logs/today','_blank')" id="changeKeyBtn">📋 Logs</button>
   <div class="tags" id="tagsBlock">
     <div class="tag">VICTRON ENERGY — CERTIFIED</div>
     <div class="tag">HUAWEI FUSIONSOLAR</div>
@@ -470,7 +470,7 @@ function detectLang() {
 // ============================================================
 // BACKEND URL
 // ============================================================
-const BACKEND = 'http://185.202.236.193:8765';
+const BACKEND = '';
 
 // ============================================================
 // APPLY UI — role + lang aware
@@ -573,7 +573,7 @@ function getSysPrompt() {
 // ============================================================
 // SERVER API CALL — через Contabo бекенд (ключ захищений)
 // ============================================================
-const BACKEND = 'http://185.202.236.193:8765';
+const BACKEND = '';
 
 async function callGemini(userText) {
   const messages = [...conversationHistory, {role:'user', content:userText}];
