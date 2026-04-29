@@ -193,11 +193,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </div>
   <div class="lang-label" id="langLabel">Sprache</div>
   <div class="lang-row">
-    <button class="lang-btn" onclick="setLang('uk',this)">🇺🇦 UA</button>
-    <button class="lang-btn" onclick="setLang('de',this)">🇩🇪 DE</button>
-    <button class="lang-btn" onclick="setLang('en',this)">🇬🇧 EN</button>
-    <button class="lang-btn" onclick="setLang('ru',this)">🇷🇺 RU</button>
-    <button class="lang-btn" onclick="setLang('pl',this)">🇵🇱 PL</button>
+    <button class="lang-btn" onclick="setLang('uk',this)">UA</button>
+    <button class="lang-btn" onclick="setLang('de',this)">DE</button>
+    <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+    <button class="lang-btn" onclick="setLang('ru',this)">RU</button>
+    <button class="lang-btn" onclick="setLang('pl',this)">PL</button>
   </div>
   <div class="mic-section">
     <div class="voice-bars" id="voiceBars">
@@ -600,11 +600,14 @@ async function callGemini(userText) {
 // ============================================================
 function initRecognition() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR){ document.getElementById('noSpeechWarn').classList.add('show'); document.getElementById('micBtn').classList.add('disabled'); return null; }
+  if(!SR){
+    document.getElementById('noSpeechWarn').classList.add('show');
+    document.getElementById('micBtn').classList.add('disabled');
+    return null;
+  }
   const rec = new SR();
   rec.continuous = false; rec.interimResults = true; rec.maxAlternatives = 1;
-  // Auto-detect: try without lang constraint for multilingual
-  rec.lang = UI[currentLang].sl;
+  rec.lang = (VOICE_CFG[currentLang]||VOICE_CFG['de']).sl;
   rec.onstart = () => { isRecording=true; setStatus('recording'); };
   rec.onresult = (e) => {
     let interim='', final='';
@@ -621,18 +624,42 @@ function initRecognition() {
     setStatus('online');
     if(text) setTimeout(()=>sendMessage(true), 300);
   };
-  rec.onerror = (e) => { isRecording=false; setStatus('online'); };
+  rec.onerror = (e) => {
+    isRecording=false; setStatus('online');
+    const warn = document.getElementById('noSpeechWarn');
+    if(e.error==='not-allowed'){
+      warn.textContent='⚠ Дозвольте доступ до мікрофону в браузері (замок зліва від адреси)';
+      warn.classList.add('show');
+    } else if(e.error==='no-speech'){
+      // тихо — нічого не сказали
+    } else {
+      warn.textContent='⚠ Помилка мікрофону: '+e.error;
+      warn.classList.add('show');
+    }
+  };
   return rec;
 }
 
 function toggleMic() {
   if(isSpeaking){ stopSpeaking(); return; }
   if(isLoading) return;
-  if(!recognition) recognition=initRecognition();
-  if(!recognition) return;
+  // Спочатку запитуємо дозвіл явно
+  if(!recognition) {
+    navigator.mediaDevices?.getUserMedia({audio:true})
+      .then(()=>{
+        recognition = initRecognition();
+        if(recognition){ recognition.lang=(VOICE_CFG[currentLang]||VOICE_CFG['de']).sl; recognition.start(); }
+      })
+      .catch(()=>{
+        const warn = document.getElementById('noSpeechWarn');
+        warn.textContent='⚠ Дозвольте мікрофон: натисніть замок зліва від адреси сайту';
+        warn.classList.add('show');
+      });
+    return;
+  }
   if(isRecording){ recognition.stop(); return; }
-  recognition.lang = UI[currentLang].sl;
-  try{ recognition.start(); } catch(e){ recognition=initRecognition(); if(recognition) recognition.start(); }
+  recognition.lang = (VOICE_CFG[currentLang]||VOICE_CFG['de']).sl;
+  try{ recognition.start(); } catch(e){ recognition=null; toggleMic(); }
 }
 
 // ============================================================
